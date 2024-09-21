@@ -13,7 +13,7 @@
 <body >
     <?php
     include 'common/header.php';
-    include 'form.php';
+    include 'front.php';
     include 'common/footer.php';
 
 

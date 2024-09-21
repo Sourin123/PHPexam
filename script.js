@@ -57,3 +57,13 @@ button.addEventListener("click", () => {
 
 
 // this is only for test ,
+document.addEventListener('DOMContentLoaded', function() {
+  // Sample JavaScript to add interactivity
+  const characterList = document.getElementById('character-list');
+
+  characterList.addEventListener('click', function(event) {
+      if (event.target.tagName === 'LI') {
+          alert(`You clicked on ${event.target.textContent}`);
+      }
+  });
+});

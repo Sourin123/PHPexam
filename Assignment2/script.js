@@ -37,20 +37,5 @@ button.addEventListener("click", () => {
   if (!verifyPass(pass)) {
     alert("Invalid Password");
   }
-//   let newUser = {
-//     name: "Alice",
-//     email: "alice@example.com",
-//     phone: "9876543210",
-//     pass: "newpassword123"
-// };
 
-//   fetch("http://localhost/ku_24_lab_backend/Ass2_backend/get.php", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(newUser),
-//   }).then(res=>res.json()).then(data=>{
-//     console.log(data)
-//   })
 });
