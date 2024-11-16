@@ -6,3 +6,7 @@ let fact = (num) => {
     }
 }
 
+
+let result = fact(20);
+console.log(result);
+

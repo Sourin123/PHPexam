@@ -12,6 +12,12 @@
 
 <body >
     <?php
+   
+    session_start();
+    if (!isset($_SESSION['log'])) {
+        $_SESSION['log'] = false;
+    }
+    
     include 'common/header.php';
     include 'front.php';
     include 'common/footer.php';

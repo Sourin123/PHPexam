@@ -1,7 +1,31 @@
 
 
 <?php
+//season createion 
 
+function start_season($email){
+    $login=true;
+    session_start();
+    $_SESSION['loggedin']=true;
+    $_SESSION['username']=$email;
+}
+//session close 
+function close_session(){
+    session_start();
+    session_unset();
+    session_destroy();
+    header("Location:http://localhost/UNI/");
+}
+//seassion validate
+function validate_session(){
+    session_start();
+    if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']==true){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
 // Database connection function
 function get_db_connection()
 {
@@ -26,7 +50,7 @@ function insert_into_user($name, $email, $phone, $pass)
     $conn = get_db_connection();
 
     // Hash the password using password_hash()
-    $pass = password_hash($pass, PASSWORD_BCRYPT);
+    // $pass = password_hash($pass, PASSWORD_BCRYPT);
 
     $stmt = $conn->prepare("INSERT INTO `user` (`name`, `phone`, `email`, `pass`) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("ssss", $name, $phone, $email, $pass);
@@ -68,33 +92,28 @@ function delete_user($email)
 }
 
 // Function to show user data
-function show_user($email)
-{
+// Function to show user data
+// Function to show user data
+function show_user($email, $pass) {
     $conn = get_db_connection();
 
     $stmt = $conn->prepare("SELECT * FROM `user` WHERE `email` = ?");
     $stmt->bind_param("s", $email);
 
-    // Set parameters and execute
     $stmt->execute();
 
     $result = $stmt->get_result();
-
     if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            echo "Name: " . $row["name"] . "<br>";
-            echo "Phone: " . $row["phone"] . "<br>";
-            echo "Email: " . $row["email"] . "<br>";
-        }
+        return $result;
     } else {
-        // Log the error instead of echoing it
-        error_log("Error: " . $stmt->error);
+        error_log("Error: User not found");
+        header('Location:http://localhost/UNI/error404.php');
+        exit;
     }
 
     $stmt->close();
     $conn->close();
 }
-
 // Function to update user data
 function update_user($email, $name, $phone, $pass)
 {

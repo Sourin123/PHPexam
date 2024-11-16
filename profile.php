@@ -1,55 +1,38 @@
 <?php
 include_once "./library.php";
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $email = $_POST["email"]; // Assuming the email input has the name "email" in the form
 
-// Create a prepared statement to prevent SQL Injection
-$conn = get_db_connection();
-$quarry = "SELECT * FROM user WHERE email = ?";
-$stmt = $conn->prepare($quarry);
-$stmt->bind_param("s", $email); // "s" denotes string data type
-$stmt->execute();
-$result = $stmt->get_result(); // Get the result
+// Check if cookie is set
+if (isset($_COOKIE['user_id']) && isset($_COOKIE['user_name']) && isset($_COOKIE['user_email'])) {
+    $user_id = $_COOKIE['user_id'];
+    $user_name = $_COOKIE['user_name'];
+    $user_email = $_COOKIE['user_email'];
+    $user_phone = $_COOKIE['user_phone'];
 
-$row_object = $result->fetch_object();
-// data fetchable object 
-$name = $row_object->name;
-$phone = $row_object->phone;
-
-
-
-// if ($result->num_rows > 0) {
-//     while ($row = $result->fetch_assoc()) {
-//         print_r($row);
-//         echo $row->name; // Print the entire row as an array
-//     }
-// } else {
-//     echo "No user found with the provided email.";
-// }
-
-$stmt->close();
-$conn->close();
-}else{
-        header('Location:http://localhost/UNI/error404.php');
-        exit;
-    }
+    // Display user data
+    echo "Welcome, $user_name (ID: $user_id)";
+    echo "<br>Email: $user_email";
+} else {
+    
+  header('Location:http://localhost/UNI/error404.php');
+  exit;
+}
 
 // Sanitize the email input
 
 include_once "./common/header.php";
 ?>
 <style>
-        .gradient-custom {
-/* fallback for old browsers */
-background: #f6d365;
+  .gradient-custom {
+    /* fallback for old browsers */
+    background: #f6d365;
 
-/* Chrome 10-25, Safari 5.1-6 */
-background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
 
-/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
-}
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
+  }
 </style>
 
 <section class="vh-100" style="background-color: #f4f5f7;">
@@ -62,8 +45,8 @@ background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 1
               style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
               <img src="./common/luffy.svg"
                 alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
-              <h5><?php echo $name;?></h5>
-              <p>Big Fan</p>
+              <h5><?php echo $user_name; ?></h5>
+              <p><?php echo $user_id ?></p>
               <i class="far fa-edit mb-5"></i>
             </div>
             <div class="col-md-8">
@@ -73,11 +56,11 @@ background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 1
                 <div class="row pt-1">
                   <div class="col-6 mb-3">
                     <h6>Email</h6>
-                    <p class="text-muted"><?php echo $email;?></p>
+                    <p class="text-muted"><?php echo $user_email; ?></p>
                   </div>
                   <div class="col-6 mb-3">
                     <h6>Phone</h6>
-                    <p class="text-muted"><?php echo $phone;?></p>
+                    <p class="text-muted"><?php echo $user_phone; ?></p>
                   </div>
                 </div>
                 <h6>Projects</h6>
@@ -110,6 +93,6 @@ background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 1
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<?php 
+<?php
 include_once "./common/footer.php";
 ?>
