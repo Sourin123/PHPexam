@@ -1,0 +1,4 @@
+Hello, World!
+This is a new file.
+This is the second file.
+It has more content.

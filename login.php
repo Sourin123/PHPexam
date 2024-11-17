@@ -13,6 +13,7 @@
 <body>
     <?php
     // login.php
+    session_start();
 
     include "./library.php";
     $conn = get_db_connection();
@@ -21,14 +22,16 @@
     if (isset($_POST['submit'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
+        echo $username ."". $password;
 
         // Validate input
         if (empty($username) || empty($password)) {
             $error = 'Please fill in all fields.';
         } else {
-            // Query database to check if user exists
-            $query = "SELECT * FROM user WHERE email = '$username' AND pass = '$password'";
-            $result = $conn->query($query);
+            $stmt = $conn->prepare("SELECT * FROM user WHERE email = ? AND pass = ?");
+            $stmt->bind_param("ss", $username, $password);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
             if ($result->num_rows > 0) {
                 // User exists, set session and cookie
@@ -57,12 +60,11 @@
     // Display login form
     ?>
     <?php 
-    session_start();
-    if($_SESSION["log"]){
-        header("Location: profile.php");
-                exit();
-
-    }
+   
+   if (isset($_SESSION["log"]) && $_SESSION["log"]) {
+       header("Location: profile.php");
+       exit();
+   }
     ?>
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
         <label for="username">Username:</label>
