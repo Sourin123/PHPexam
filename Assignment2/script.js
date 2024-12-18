@@ -13,6 +13,7 @@ function validateName(name) {
 
 let verifyPass = (pass) => {
   const passRegEx = /[[a-zA-Z]+[0-9]+[\!\@\#\$\%\*\,\.\<\>]+]+/;
+  // another approch is ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$
   if (pass.length > 8 && pass.length < 20) {
     return passRegEx.test(pass);
   } else {

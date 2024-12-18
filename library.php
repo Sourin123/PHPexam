@@ -16,7 +16,7 @@ function close_session(){
     session_destroy();
     header("Location:http://localhost/UNI/");
 }
-//seassion validate
+//session validate
 function validate_session(){
     session_start();
     if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']==true){
